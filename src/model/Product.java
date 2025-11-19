@@ -36,6 +36,9 @@ public abstract class Product {
 
     }
 
+    protected Product() {
+    }
+
     //Getters
     public int getNumber() { return number; }
     public String getName() { return name; }
