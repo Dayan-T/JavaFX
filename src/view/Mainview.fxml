@@ -3,56 +3,96 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controller.StoreControl">
 
-    <!-- TOP BAR : CAPITAL / INCOME / COST -->
+    <!-- ===== TOP: Statistics ===== -->
     <top>
         <HBox spacing="20" alignment="CENTER_LEFT">
             <padding>
-                <Insets top="10" left="10" bottom="10" right="10"/>
+                <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
+            <children>
+                <Label text="Capital:"/>
+                <Label fx:id="lblCapital" text="0"/>
 
-            <Label fx:id="lblCapital" text="Capital: 0€"/>
-            <Label fx:id="lblIncome" text="Income: 0€"/>
-            <Label fx:id="lblCost" text="Cost: 0€"/>
+                <Label text="Income:"/>
+                <Label fx:id="lblIncome" text="0"/>
+
+                <Label text="Cost:"/>
+                <Label fx:id="lblCost" text="0"/>
+
+                <Label text="Profit:"/>
+                <Label fx:id="lblProfit" text="0"/>
+            </children>
         </HBox>
     </top>
 
-
-    <!-- CENTER : TABLE VIEW -->
+    <!-- ===== CENTER: Table ===== -->
     <center>
         <TableView fx:id="tableProducts">
             <columns>
-
-                <TableColumn fx:id="colName" text="Name" prefWidth="130"/>
-                <TableColumn fx:id="colType" text="Type" prefWidth="90"/>
-                <TableColumn fx:id="colPrice" text="Price" prefWidth="75"/>
-                <TableColumn fx:id="colBuyPrice" text="Buy Price" prefWidth="75"/>
-                <TableColumn fx:id="colStock" text="Stock" prefWidth="60"/>
-                <TableColumn fx:id="colSpecific" text="Specific" prefWidth="120"/>
-                <TableColumn fx:id="colDiscPrice" text="Discount Price" prefWidth="120"/>
-
+                <TableColumn fx:id="colName" text="Name" prefWidth="150"/>
+                <TableColumn fx:id="colType" text="Type" prefWidth="100"/>
+                <TableColumn fx:id="colPurPrice" text="Purchase Price" prefWidth="130"/>
+                <TableColumn fx:id="colSellPrice" text="Sale Price" prefWidth="130"/>
+                <TableColumn fx:id="colDiscPrice" text="Discounted Price" prefWidth="150"/>
+                <TableColumn fx:id="colStock" text="Stock" prefWidth="90"/>
+                <TableColumn fx:id="colSize" text="Size" prefWidth="90"/>
             </columns>
         </TableView>
     </center>
 
-
-    <!-- BOTTOM BUTTON BAR -->
-    <bottom>
-        <HBox spacing="20" alignment="CENTER">
+    <!-- ===== LEFT: Filters ===== -->
+    <left>
+        <VBox spacing="10" alignment="TOP_CENTER">
             <padding>
-                <Insets top="15" bottom="15"/>
+                <Insets top="15" left="10" right="10" bottom="10"/>
             </padding>
 
-            <Button text="Load Demo" onAction="#handleLoadDemo" />
-            <Button text="Buy Stock" onAction="#handleBuyStock"/>
-            <Button text="Sell Item" onAction="#handleSellItem"/>
-            <Button fx:id="btnDiscount" text="Toggle Discounts" onAction="#handleToggleDiscounts"/>
+            <children>
+                <Button text="Show All" onAction="#handleFilterAll"/>
+                <Button text="Show Clothes" onAction="#handleFilterClothes"/>
+                <Button text="Show Shoes" onAction="#handleFilterShoes"/>
+                <Button text="Show Accessories" onAction="#handleFilterAccessories"/>
 
+                <Separator/>
+
+                <Button text="Sort by Sale Price" onAction="#handleSortByPrice"/>
+
+                <Separator/>
+
+                <Button text="Edit Selected Item" onAction="#handleEditProduct"/>
+                <Button text="Delete Selected Item" onAction="#handleDeleteProduct"/>
+                <Separator/>
+                <Button text="Display Selected" onAction="#handleDisplayItem"/>
+
+            </children>
+        </VBox>
+    </left>
+
+    <!-- ===== BOTTOM: Controls ===== -->
+    <bottom>
+        <HBox spacing="15" alignment="CENTER">
+            <padding>
+                <Insets top="10" bottom="10"/>
+            </padding>
+
+            <children>
+
+                <Label text="Qty:"/>
+                <TextField fx:id="txtQuantity" prefWidth="60" promptText="1"/>
+
+                <Button text="Buy" onAction="#handleBuy"/>
+                <Button text="Sell" onAction="#handleSell"/>
+
+                <Separator orientation="VERTICAL"/>
+
+                <Button text="Apply Discounts" onAction="#handleApplyDiscounts"/>
+                <Button text="Remove Discounts" onAction="#handleRemoveDiscounts"/>
+            </children>
         </HBox>
     </bottom>
 
