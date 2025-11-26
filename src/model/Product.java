@@ -1,20 +1,20 @@
 package model;
 
-public abstract class Product {
+public abstract class Product implements Discount{
     //Attributs
-    private static int counter = 0; // compteur auto-incrémenté
-    private int number;
-    private String name;
-    private double purprice;   // prix d’achat
-    private double sellprice;  // prix de vente
-    private double discprice;  // prix avec remise
-    private int nbitems;       // nombre d’articles
-    private double discountPer = 0; // pourcentage de remise
+    protected static int counter = 0; // compteur auto-incrémenté
+    protected int number;
+    protected String name;
+    protected double purprice;   // prix d’achat
+    protected double sellprice;  // prix de vente
+    protected double discprice;  // prix avec remise
+    protected int nbitems;       // nombre d’articles
+    protected double discountPer = 0; // pourcentage de remise
 
     //Attributs statiques
-    private static double capital = 1000;
-    private static double cost = 0;
-    private static double income = 0;
+    protected static double capital = 1000;
+    protected static double cost = 0;
+    protected static double income = 0;
 
     //Constructeur
     public Product(String name, double purprice, double sellprice) {

@@ -2,33 +2,35 @@ package model;
 
 public class Clothes extends Product {
     //Atributs
-    public int size;
+    private int size;
 
-    public Clothes(String name,double purprice, double sellprice, int size) {
-        super(name,purprice,sellprice); //On appelle le constructeur de product
+    public Clothes(String name, double purprice, double sellprice, int size) {
+        super(name, purprice, sellprice);
+        setSize(size);
+    }
+
+    public int getSize() { return size; }
+
+    public void setSize(int size) {
+        if (size < 34 || size > 54) {
+            throw new IllegalArgumentException("Taille vêtement invalide (34-54)");
+        }
         this.size = size;
     }
 
-    //Getter
-    public int getSize() {
-        return size;
+    @Override
+    public void applyDiscount() {
+        this.discprice = this.sellprice * (1 - CLOTHES_DISCOUNT);
     }
 
-    //Setter
-    public void setSize(int size) {
-        try {
-            if (size < 34 || size > 54) {
-                throw new IllegalArgumentException("wrong size !");
-            }
-            this.size = size;
-        }
-        catch (IllegalArgumentException e) {
-            throw e;
-        }
+    @Override
+    public void unApplyDiscount() {
+        this.discprice = 0;
     }
 
+    @Override
     public String toString() {
-        return super.toString() + "\nSize: " + size;
+        return super.toString() + ", Taille: " + size;
     }
 
 
