@@ -7,7 +7,7 @@ public class Shoes extends Product {
     //Constructeur
     public Shoes(String name, double purprice, double sellprice, int shoeSize){
         super(name,purprice,sellprice);
-        this.shoeSize = shoeSize;
+        setShoeSize(shoeSize);
     }
 
     //Getter
@@ -18,7 +18,7 @@ public class Shoes extends Product {
     //Setter
     public void setShoeSize(int shoeSize){
         try{
-            if (shoeSize <= 36 || shoeSize >= 50 ){
+            if (shoeSize < 36 || shoeSize > 50 ){
                 throw new IllegalArgumentException("Wrong Shoe size");
             }
             this.shoeSize = shoeSize;
@@ -34,4 +34,13 @@ public class Shoes extends Product {
         return super.toString() + ", shoeSize = " + shoeSize;
     }
 
+    @Override
+    public void applyDiscount() {
+        this.discprice = this.sellprice * (1 - SHOES_DISCOUNT);
+    }
+
+    @Override
+    public void unApplyDiscount() {
+        this.discprice = 0;
+    }
 }

@@ -12,7 +12,7 @@ public class Clothes extends Product {
     public int getSize() { return size; }
 
     public void setSize(int size) {
-        if (size < 34 || size > 54) {
+        if (size < 34 || size > 54 || size % 2 != 0) {
             throw new IllegalArgumentException("Taille vêtement invalide (34-54)");
         }
         this.size = size;
