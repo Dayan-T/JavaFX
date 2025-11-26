@@ -50,10 +50,28 @@ public abstract class Product implements Discount {
         return (discprice > 0) ? discprice : sellprice;
     }
     public double getDiscountPer() { return discountPer; }
-
+    public int getId() { return number; }
 
 
     // Setters
+    public void setName(String name) {
+        try {
+            if (name == null || name.trim().isEmpty()) {
+                throw new IllegalArgumentException("Name cannot be empty!");
+            }
+            this.name = name;
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    protected void setId(int number) {
+        if (number > 0) {
+            this.number = number;
+        } else {
+            System.out.println("Invalid product ID!");
+        }
+    }
     public void setNbitems(int nbitems) {
         try {
         if (nbitems < 0) {
