@@ -1,6 +1,6 @@
 package model;
 
-public abstract class Product implements Discount{
+public abstract class Product implements Discount {
     //Attributs
     protected static int counter = 0; // compteur auto-incrémenté
     protected int number;
@@ -12,7 +12,7 @@ public abstract class Product implements Discount{
     protected double discountPer = 0; // pourcentage de remise
 
     //Attributs statiques
-    protected static double capital = 1000;
+    protected static double capital = 30000;
     protected static double cost = 0;
     protected static double income = 0;
 
@@ -27,7 +27,7 @@ public abstract class Product implements Discount{
             this.name = name;
             this.purprice = purprice;
             this.sellprice = sellprice;
-            this.discprice = sellprice; // par défaut pas de remise
+            this.discprice = 0; // par défaut pas de remise
             this.nbitems = 0;
         }
         catch(IllegalArgumentException e) {
@@ -46,11 +46,32 @@ public abstract class Product implements Discount{
     public double getSellprice() { return sellprice; }
     public double getDiscprice() { return discprice; }
     public int getNbitems() { return nbitems; }
+    public double getEffectivePrice() {
+        return (discprice > 0) ? discprice : sellprice;
+    }
     public double getDiscountPer() { return discountPer; }
-
+    public int getId() { return number; }
 
 
     // Setters
+    public void setName(String name) {
+        try {
+            if (name == null || name.trim().isEmpty()) {
+                throw new IllegalArgumentException("Name cannot be empty!");
+            }
+            this.name = name;
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    protected void setId(int number) {
+        if (number > 0) {
+            this.number = number;
+        } else {
+            System.out.println("Invalid product ID!");
+        }
+    }
     public void setNbitems(int nbitems) {
         try {
         if (nbitems < 0) {
@@ -109,18 +130,21 @@ public abstract class Product implements Discount{
 
             this.nbitems -= nb;
 
-            if (this.discountPer != 0) {
-                income += this.discprice * nb;
-                System.out.println("You sold " + nb + " " + name + "(s) for " + discprice + " each.");
-            } else {
-                income += this.sellprice * nb;
-                System.out.println("You sold " + nb + " " + name + "(s) for " + sellprice + " each.");
+            double priceUsed;
+            if (this.discprice > 0) {           // remise active
+                priceUsed = this.discprice;
+            } else {                            // pas de remise
+                priceUsed = this.sellprice;
             }
+
+            income += priceUsed * nb;
+            System.out.println("You sold " + nb + " " + name + "(s) for " + priceUsed + " each.");
 
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
     }
+
 
     //MEthode d'achat
 
