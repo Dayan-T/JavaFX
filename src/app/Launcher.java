@@ -1,3 +1,5 @@
+package app;
+
 public class Launcher {
     public static void main(String[] args) {
         // Cette classe sert uniquement à lancer l'application

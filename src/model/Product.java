@@ -25,9 +25,9 @@ public abstract class Product implements Discount {
             counter++;
             this.number = counter;
             this.name = name;
-            this.purprice = purprice;
-            this.sellprice = sellprice;
-            this.discprice = 0; // par défaut pas de remise
+            setPurprice(purprice);
+            setSellprice(sellprice);
+            this.discprice = 0;
             this.nbitems = 0;
         }
         catch(IllegalArgumentException e) {
@@ -52,6 +52,17 @@ public abstract class Product implements Discount {
     public double getDiscountPer() { return discountPer; }
     public int getId() { return number; }
 
+    public static double getCapital() {
+        return capital;
+    }
+
+    public static double getIncome() {
+        return income;
+    }
+
+    public static double getCost() {
+        return cost;
+    }
 
     // Setters
     public void setName(String name) {
@@ -73,15 +84,10 @@ public abstract class Product implements Discount {
         }
     }
     public void setNbitems(int nbitems) {
-        try {
         if (nbitems < 0) {
-                throw new IllegalArgumentException("Negative quantity!");
-            }
-            this.nbitems = nbitems;
+            throw new IllegalArgumentException("Negative quantity!");
         }
-        catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
+        this.nbitems = nbitems;
     }
     public void setDiscountPer(double discountPer) {
         this.discountPer = discountPer;
@@ -97,72 +103,56 @@ public abstract class Product implements Discount {
                 "\nQuantity: " + nbitems;
     }
     public void setPurprice(double purprice) {
-        try {
-            if (purprice <= 0) {
-                throw new IllegalArgumentException("Negative price!");
-            }
-            this.purprice = purprice;
-
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+        if (purprice <= 0) {
+            throw new IllegalArgumentException("Negative price!");
         }
+
+        this.purprice = purprice;
     }
     public void setSellprice(double sellprice) {
-        try {
-            if (sellprice <= 0) {
-                throw new IllegalArgumentException("Negative price!");
-            }
-            this.sellprice = sellprice;
-
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+        if (sellprice <= 0) {
+            throw new IllegalArgumentException("Negative price!");
         }
+        if (sellprice < purprice) {
+            throw new IllegalArgumentException("Sellprice can not be lower than purprice!");
+        }
+        this.sellprice = sellprice;
     }
 
 
     //Méthode de vente
 
     public void sell(int nb) {
-        try {
-            if (nb > this.nbitems) {
-                throw new IllegalArgumentException("model.Product Unavailable");
-            }
-
-            this.nbitems -= nb;
-
-            double priceUsed;
-            if (this.discprice > 0) {           // remise active
-                priceUsed = this.discprice;
-            } else {                            // pas de remise
-                priceUsed = this.sellprice;
-            }
-
-            income += priceUsed * nb;
-            System.out.println("You sold " + nb + " " + name + "(s) for " + priceUsed + " each.");
-
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+        if (nb > this.nbitems) {
+            throw new IllegalArgumentException("model.Product Unavailable");
         }
+
+        this.nbitems -= nb;
+
+        double priceUsed;
+        if (this.discprice > 0) {           // remise active
+            priceUsed = this.discprice;
+        } else {                            // pas de remise
+            priceUsed = this.sellprice;
+        }
+
+        income += priceUsed * nb;
+        System.out.println("You sold " + nb + " " + name + "(s) for " + priceUsed + " each.");
     }
 
 
     //MEthode d'achat
 
     public void buy(int nb) {
-        try {
-            if (nb < 0) {
-                throw new IllegalArgumentException("Negative quantity!");
-            }
-            if (capital<nb*this.purprice) {
-                throw new IllegalArgumentException("model.Product Unavailable");
-            }
-            this.nbitems += nb;
-            capital -= nb*this.purprice;
-            cost+=nb*this.purprice;
+        if (nb < 0) {
+            throw new IllegalArgumentException("Negative quantity!");
         }
-        catch(IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+        if (capital<nb*this.purprice) {
+            throw new IllegalArgumentException("Insuffficient budget!");
         }
+        this.nbitems += nb;
+        capital -= nb*this.purprice;
+        cost+=nb*this.purprice;
     }
 
 
