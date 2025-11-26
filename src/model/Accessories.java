@@ -5,6 +5,16 @@ public class Accessories extends Product {
     public Accessories(String name, double purprice, double sellprice){
         super(name,purprice,sellprice);
     }
+
+    @Override
+    public void applyDiscount() {
+        this.discprice = this.sellprice * (1 - ACCESSORY_DISCOUNT);
+    }
+
+    @Override
+    public void unApplyDiscount() {
+        this.discprice = 0;
+    }
     //Methode toString()
     @Override
     public String toString(){

@@ -1,6 +1,6 @@
 package model;
 
-public abstract class Product {
+public abstract class Product implements Discount {
     //Attributs
     protected static int counter = 0; // compteur auto-incrémenté
     protected int number;
@@ -46,6 +46,9 @@ public abstract class Product {
     public double getSellprice() { return sellprice; }
     public double getDiscprice() { return discprice; }
     public int getNbitems() { return nbitems; }
+    public double getEffectivePrice() {
+        return (discprice > 0) ? discprice : sellprice;
+    }
     public double getDiscountPer() { return discountPer; }
 
 
