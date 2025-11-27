@@ -9,8 +9,9 @@ public class Clothes extends Product {
         setSize(size);
     }
 
+    //getter
     public int getSize() { return size; }
-
+    //setter
     public void setSize(int size) {
         if (size < 34 || size > 54 || size % 2 != 0) {
             throw new IllegalArgumentException("Taille vêtement invalide (34-54)");

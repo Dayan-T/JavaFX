@@ -6,6 +6,7 @@ import java.util.List;
 
 public class DBManager {
 
+    //Connexion à la db sql
     private static final String URL = "jdbc:mysql://localhost:3306/store";
     private static final String USER = "root";
     private static final String PASS = "Dayan";
@@ -14,7 +15,7 @@ public class DBManager {
         return DriverManager.getConnection(URL, USER, PASS);
     }
 
-    /* LOAD ALL */
+    //Load the db
     public static List<Product> loadProducts() {
         List<Product> list = new ArrayList<>();
 
@@ -50,7 +51,6 @@ public class DBManager {
                         throw new IllegalArgumentException("Unknown product type: " + type);
                     }
 
-                    // Apply DB values
                     p.setId(id);
                     p.setNbitems(qty);
                     p.setDiscountPer(disc);
@@ -58,19 +58,19 @@ public class DBManager {
                     list.add(p);
                 }
                 catch (Exception e) {
-                    System.out.println("Invalid product detected and removed (ID = " + id + "): " + e.getMessage());
-                    deleteProduct(id);   // ⬅ SUPPRESSION AUTOMATIQUE
+                    System.out.println("Invalid product detected" + e.getMessage());
                 }
             }
 
         } catch (Exception e) {
-            System.out.println("DB Load Error: " + e.getMessage());
+            System.out.println("DB Loading Error: " + e.getMessage());
         }
 
         return list;
     }
 
-    /* UPDATE SINGLE PRODUCT */
+    // Update a  product
+
     public static void updateProduct(Product p) {
 
         String sql = "UPDATE products SET purprice=?, sellprice=?, discprice=?, nbitems=? WHERE id=?";
@@ -91,7 +91,7 @@ public class DBManager {
         }
     }
 
-    /* UPDATE ALL */
+    // Update all products (for dicounts)
     public static void updateAllProducts(List<Product> list) {
         for (Product p : list)
             updateProduct(p);

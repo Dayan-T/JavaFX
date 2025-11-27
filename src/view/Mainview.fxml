@@ -8,7 +8,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controller.StoreControl">
 
-    <!-- ===== TOP: Statistics ===== -->
+    <!-- TOP: Statistics  -->
     <top>
         <HBox spacing="20" alignment="CENTER_LEFT">
             <padding>
@@ -30,7 +30,7 @@
         </HBox>
     </top>
 
-    <!-- ===== CENTER: Table ===== -->
+    <!-- CENTER: Table -->
     <center>
         <TableView fx:id="tableProducts">
             <columns>
@@ -45,7 +45,7 @@
         </TableView>
     </center>
 
-    <!-- ===== LEFT: Filters ===== -->
+    <!-- LEFT: Filters -->
     <left>
         <VBox spacing="10" alignment="TOP_CENTER">
             <padding>
@@ -66,14 +66,16 @@
 
                 <Button text="Edit Selected Item" onAction="#handleEditProduct"/>
                 <Button text="Delete Selected Item" onAction="#handleDeleteProduct"/>
+
                 <Separator/>
+
                 <Button text="Display Selected" onAction="#handleDisplayItem"/>
 
             </children>
         </VBox>
     </left>
 
-    <!-- ===== BOTTOM: Controls ===== -->
+    <!--BOTTOM: db controls  -->
     <bottom>
         <HBox spacing="15" alignment="CENTER">
             <padding>

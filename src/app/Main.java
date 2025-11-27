@@ -16,7 +16,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        // 1) CHECK DATABASE + LOAD PRODUCTS
+        //CHECK DATABASE +LOAD PRODUCTS
         List<Product> initialProducts;
 
         try {
@@ -24,24 +24,24 @@ public class Main extends Application {
         }
         catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("FATAL DATABASE ERROR");
+            alert.setTitle("DATABASE ERROR");
             alert.setHeaderText("Cannot start WomenShop");
-            alert.setContentText("Error loading database:\n\n" + e.getMessage());
+            alert.setContentText("Error loading database:\n" + e.getMessage());
             alert.showAndWait();
             System.exit(1);
             return;
         }
 
-        // 2) Load UI
+        //Load UI
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Mainview.fxml"));
             Scene scene = new Scene(loader.load());
 
-            // Pass loaded products to controller
+            //Pass loaded products to controller
             controller.StoreControl controller = loader.getController();
             controller.initializeWithProducts(initialProducts);
 
-            primaryStage.setTitle("WomenShop Store Management");
+            primaryStage.setTitle("Store Management");
             primaryStage.setScene(scene);
             primaryStage.show();
 

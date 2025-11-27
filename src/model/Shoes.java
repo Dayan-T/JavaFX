@@ -23,7 +23,6 @@ public class Shoes extends Product {
         this.shoeSize = shoeSize;
     }
 
-
     //Méthode ToString
     @Override
     public String toString(){

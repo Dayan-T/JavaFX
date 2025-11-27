@@ -5,11 +5,11 @@ public abstract class Product implements Discount {
     protected static int counter = 0; // compteur auto-incrémenté
     protected int number;
     protected String name;
-    protected double purprice;   // prix d’achat
-    protected double sellprice;  // prix de vente
-    protected double discprice;  // prix avec remise
-    protected int nbitems;       // nombre d’articles
-    protected double discountPer = 0; // pourcentage de remise
+    protected double purprice;   //prix d’achat
+    protected double sellprice;  //prix de vente
+    protected double discprice;  //prix avec remise
+    protected int nbitems;       //nombre d’articles
+    protected double discountPer = 0; //pourcentage de remise
 
     //Attributs statiques
     protected static double capital = 30000;
@@ -18,62 +18,73 @@ public abstract class Product implements Discount {
 
     //Constructeur
     public Product(String name, double purprice, double sellprice) {
-        try {
-            if (purprice <= 0 || sellprice <= 0) {
-                throw new IllegalArgumentException("Negative price!");
-            }
-            counter++;
-            this.number = counter;
-            this.name = name;
-            setPurprice(purprice);
-            setSellprice(sellprice);
-            this.discprice = 0;
-            this.nbitems = 0;
-        }
-        catch(IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
 
+        if (purprice <= 0)
+            throw new IllegalArgumentException("Purchase price must be positive.");
+
+        if (sellprice <= 0)
+            throw new IllegalArgumentException("Sell price must be positive.");
+
+        if (sellprice < purprice)
+            throw new IllegalArgumentException("Sell price cannot be lower than purchase price.");
+
+        counter++;
+        this.number = counter;
+        this.name = name;
+        this.purprice = purprice;
+        this.sellprice = sellprice;
+        this.discprice = 0;
+        this.nbitems = 0;
     }
 
+    //pour que les classes enfants puissent utiliser les methodes car extends
     protected Product() {
     }
 
     //Getters
-    public int getNumber() { return number; }
-    public String getName() { return name; }
-    public double getPurprice() { return purprice; }
-    public double getSellprice() { return sellprice; }
-    public double getDiscprice() { return discprice; }
-    public int getNbitems() { return nbitems; }
+    public int getNumber() {
+        return number;
+    }
+    public String getName() {
+        return name;
+    }
+    public double getPurprice() {
+        return purprice;
+    }
+    public double getSellprice() {
+        return sellprice;
+    }
+    public double getDiscprice() {
+        return discprice;
+    }
+    public int getNbitems() {
+        return nbitems;
+    }
     public double getEffectivePrice() {
         return (discprice > 0) ? discprice : sellprice;
     }
-    public double getDiscountPer() { return discountPer; }
-    public int getId() { return number; }
-
+    public double getDiscountPer() {
+        return discountPer;
+    }
+    public int getId() {
+        return number;
+    }
     public static double getCapital() {
         return capital;
     }
-
     public static double getIncome() {
         return income;
     }
-
     public static double getCost() {
         return cost;
     }
 
+
     // Setters
     public void setName(String name) {
-        try {
-            if (name == null || name.trim().isEmpty()) {
-                throw new IllegalArgumentException("Name cannot be empty!");
-            }
-            this.name = name;
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
+        if (name == null || name.isBlank())
+            throw new IllegalArgumentException("Name cannot be empty.");
+        this.name = name;
     }
 
     protected void setId(int number) {
@@ -102,13 +113,14 @@ public abstract class Product implements Discount {
                 "\nDiscounted price: " + discprice +
                 "\nQuantity: " + nbitems;
     }
+
     public void setPurprice(double purprice) {
         if (purprice <= 0) {
             throw new IllegalArgumentException("Negative price!");
         }
-
         this.purprice = purprice;
     }
+
     public void setSellprice(double sellprice) {
         if (sellprice <= 0) {
             throw new IllegalArgumentException("Negative price!");
@@ -162,8 +174,7 @@ public abstract class Product implements Discount {
         System.out.println(this.toString());
     }
 
-    //Get Financial
-
+    //Get Finances
     public static void displayStats() {
         System.out.println("Capital: " + capital);
         System.out.println("Income: " + income);

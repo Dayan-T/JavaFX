@@ -15,7 +15,8 @@ public class Accessories extends Product {
     public void unApplyDiscount() {
         this.discprice = 0;
     }
-    //Methode toString()
+
+
     @Override
     public String toString(){
         return super.toString();

@@ -61,7 +61,7 @@ public class StoreControl {
         updateStats();
     }
 
-    /* =========== UTILS =========== */
+    // DB Management
 
     private int getQuantity() {
         try {
@@ -87,7 +87,7 @@ public class StoreControl {
         lblProfit.setText("" + (Product.getIncome()-Product.getCost()));
     }
 
-    /* =========== DB LOAD =========== */
+    // DB laoding
 
     public void initializeWithProducts(List<Product> products) {
         masterList.clear();
@@ -97,7 +97,7 @@ public class StoreControl {
         updateStats();
     }
 
-    /* =========== BUY / SELL with quantity =========== */
+    // buying/selling methods with number of items
 
     @FXML
     private void handleBuy() {
@@ -116,10 +116,16 @@ public class StoreControl {
     @FXML
     private void handleSell() {
         Product p = tableProducts.getSelectionModel().getSelectedItem();
-        if (p == null) { show("Select a product."); return; }
+        if (p == null) {
+            show("Select a product.");
+            return;
+        }
 
         int qty = getQuantity();
-        if (qty <= 0) { show("Invalid quantity."); return; }
+        if (qty <= 0) {
+            show("Invalid quantity.");
+            return;
+        }
 
         p.sell(qty);
         DBManager.updateProduct(p);
@@ -127,7 +133,7 @@ public class StoreControl {
         updateStats();
     }
 
-    /* =========== DISCOUNTS =========== */
+    // discount application
 
     @FXML
     private void handleApplyDiscounts() {
@@ -145,7 +151,7 @@ public class StoreControl {
         tableProducts.refresh();
     }
 
-    /* =========== FILTERS =========== */
+    // Filters (shoes, clothes...)
 
     @FXML
     private void handleFilterAll() {
@@ -155,31 +161,25 @@ public class StoreControl {
     @FXML
     private void handleFilterClothes() {
         filteredList.setAll(
-                masterList.stream()
-                        .filter(p -> p instanceof Clothes)
-                        .collect(Collectors.toList())
+                masterList.stream().filter(p -> p instanceof Clothes).collect(Collectors.toList())
         );
     }
 
     @FXML
     private void handleFilterShoes() {
         filteredList.setAll(
-                masterList.stream()
-                        .filter(p -> p instanceof Shoes)
-                        .collect(Collectors.toList())
+                masterList.stream().filter(p -> p instanceof Shoes).collect(Collectors.toList())
         );
     }
 
     @FXML
     private void handleFilterAccessories() {
         filteredList.setAll(
-                masterList.stream()
-                        .filter(p -> p instanceof Accessories)
-                        .collect(Collectors.toList())
+                masterList.stream().filter(p -> p instanceof Accessories).collect(Collectors.toList())
         );
     }
 
-    /* =========== SORT =========== */
+    // Sorting by price
 
     @FXML
     private void handleSortByPrice() {
@@ -221,9 +221,27 @@ public class StoreControl {
     }
 
     @FXML
+    private void handleDisplayItem() {
+        Product p = tableProducts.getSelectionModel().getSelectedItem();
+        if (p == null) {
+            show("Select a product to display.");
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Product Details");
+        alert.setHeaderText(p.getName());
+        alert.setContentText(p.toString());
+        alert.showAndWait();
+    }
+
+    @FXML
     private void handleDeleteProduct() {
         Product p = tableProducts.getSelectionModel().getSelectedItem();
-        if (p == null) { show("Select a product."); return; }
+        if (p == null) {
+            show("Select a product.");
+            return;
+        }
 
         if (p.getNbitems() != 0) {
             show("Cannot delete: stock must be 0.");
@@ -242,19 +260,4 @@ public class StoreControl {
         filteredList.remove(p);
         tableProducts.refresh();
     }
-    @FXML
-    private void handleDisplayItem() {
-        Product p = tableProducts.getSelectionModel().getSelectedItem();
-        if (p == null) {
-            show("Select a product to display.");
-            return;
-        }
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Product Details");
-        alert.setHeaderText(p.getName());
-        alert.setContentText(p.toString());   // utilise ton toString() déjà propre
-        alert.showAndWait();
-    }
-
 }
